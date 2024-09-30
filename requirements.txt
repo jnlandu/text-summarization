@@ -5,10 +5,7 @@ PyPDF2
 transformers
 torch
 python-multipart
-passlib
 bcrypt
-python-jose
-pytest
 pytest
 httpx
 tf-keras # in case fastapi requires tensorflow
