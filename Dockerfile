@@ -2,22 +2,22 @@
 FROM python:3.10-slim
 
 # Set the working directory inside the container
-WORKDIR /app
+WORKDIR /code
 
-# Copy the requirements file into the container
-COPY requirements.txt .
+# Copy the requirements file to the working directory
+COPY requirements.txt /code/requirements.txt
 
 # Install any dependencies specified in requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install "fastapi[standard]"
+RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 
-# Install additional testing dependencies (like pytest)
-RUN pip install pytest
 
-# Copy the entire FastAPI app into the container
-COPY . .
+COPY ./app /code/app
+COPY ./tests /code/tests
+COPY ./utils /code/utils
 
-# Expose the port that FastAPI runs on
-EXPOSE 8000
+# Expose the port that the app runs on
+EXPOSE 8080
 
 # Command to run the FastAPI app with uvicorn
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["fastapi", "run", "app/main.py","--port", "8080"]
