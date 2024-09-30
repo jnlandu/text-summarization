@@ -8,7 +8,9 @@ from utils.auth import authenticate_user, oauth2_scheme
 from utils.pdf import extract_text_from_pdf
 from utils.summarizer import summarizer
 
-
+@app.get("/")
+async def root():
+    return {"message": "Healthy"}
 
 @app.post("/token")
 async def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]):
