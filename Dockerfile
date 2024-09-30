@@ -9,6 +9,7 @@ COPY requirements.txt /code/requirements.txt
 
 # Install any dependencies specified in requirements.txt
 RUN pip install "fastapi[standard]"
+
 RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 
 # Copy the application code
