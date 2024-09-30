@@ -1,4 +1,3 @@
-python-dotenv
 PyPDF2
 transformers
 torch
@@ -6,4 +5,5 @@ bcrypt
 pytest
 httpx
 tf-keras # in case fastapi requires tensorflow
+
 
