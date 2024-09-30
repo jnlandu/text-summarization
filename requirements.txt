@@ -1,10 +1,7 @@
-fastapi
-uvicorn
 python-dotenv
 PyPDF2
 transformers
 torch
-python-multipart
 bcrypt
 pytest
 httpx
