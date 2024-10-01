@@ -34,7 +34,7 @@ jobs:
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'okapi-ai'  # app name
+          app-name: 'okapi-ai'  # add app name
           images: '${{ secrets.AZ_REGISTRY_USERNAME }}.azurecr.io/api:latest'
 
       - name: Azure Logout
