@@ -141,6 +141,54 @@ The project includes a basic testing structure within the `/tests` folder. Ensur
 pytest tests/
 ```
 
+## Host your own instance:
+- Can pull the docker image from the docker hub and run it on your local machine or server.
+- The docker image is available on the docker hub [here](https://hub.docker.com/repository/docker/jnlandu/api/general).
+
+## In Progress
+- Add frontend for the web application (already built and  will be available soon).
+- The mockup for the frontend is available in the `mockup` folder.
+- The frontend mockup  and design is built using Penpot, a free and open-source design tool, and can be accessed [here](https://design.penpot.app/#/view/c04641ea-355e-80b8-8005-0470a06594c7?page-id=a2ce2100-8690-8062-8005-048c1cd45e40&section=interactions&frame-id=657f4724-f349-80ae-8005-060334d868a5&index=0&share-id=feb30645-e691-8018-8005-08062f92a59f).
+- Can play with our prototype [here](https://design.penpot.app/#/view/c04641ea-355e-80b8-8005-0470a06594c7?page-id=a2ce2100-8690-8062-8005-048c1cd45e40&section=interactions&frame-id=657f4724-f349-80ae-8005-060334d868a5&index=0&interactions-mode=show&share-id=feb30645-e691-8018-8005-08062f92a59f) and give us feedback on the design and the user experience. To show interactions, click on the "Interactions" tab on the top right corner of the page.
+
+## Tech stack
+The backend is built using:
+- Python
+- FastAPI
+- Docker
+- Pydantic
+- Azure Blob Storage for users' PDF files to be processed and allow users to chat with.
+- Azure PostgreSQL for the database and chat history of users
+
+The frontend is built using:
+- HTML
+- CSS
+- Next.js 14
+- Tailwind CSS
+- TypeScript
+- Shadcn and zod for forms and their  validation
+
+
+
+
+
+## Authors
+- [Jeremy N. Mabiala](https://jnlandu.github.io/)
+- [Atou]()
+- [Senanou ]()
+
+
+
+## Contributing
+Contributions are welcome! For feature requests, bug reports, or questions, please open an issue.
+
+## Future Improvements:
+- Add support for more summarization models.
+- Implement more advanced QA models.
+- Improve the web article fetching functionality.
+
+
+
 ## Acknowledgements
 - [Hugging Face Transformers](https://huggingface.co/transformers/)
 - [PyPDF2 Documentation](https://pypdf2.readthedocs.io/en/latest/)
