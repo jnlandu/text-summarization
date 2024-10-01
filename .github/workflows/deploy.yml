@@ -1,0 +1,42 @@
+name: CI/CD for FastAPI Docker to Azure
+
+on:
+  push:
+    branches:
+      - main  # Trigger deployment on push to the main branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Log in to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Log in to ACR
+        run: |
+          az acr login --name ${{ secrets.AZ_CONTAINER_REGISTRY }}
+
+      - name: Build and push Docker image to ACR
+        run: |
+          docker build -t ${{ secrets.AZ_CONTAINER_REGISTRY }}.azurecr.io/api:latest .
+          docker push ${{ secrets.AZ_CONTAINER_REGISTRY }}.azurecr.io/api:latest
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'okapi-ai.azurewebsites.net'  # Your Azure App Service name
+          images: 'myacregname.azurecr.io/api:latest'
