@@ -6,12 +6,12 @@ on:
       - main  # Trigger deployment on push to the main branch
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Github Actions
-        uses: actions/checkout@v2
+        uses: actions/checkout@main
 
       - name: Log in to Azure via Azure CLI
         uses: azure/login@v1
@@ -31,18 +31,12 @@ jobs:
           docker build -t ${{ secrets.AZ_REGISTRY_USERNAME }}.azurecr.io/api:latest .
           docker push ${{ secrets.AZ_REGISTRY_USERNAME }}.azurecr.io/api:latest
 
-    
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-
-    steps:
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'okapi-ai'  # app name
           images: '${{ secrets.AZ_REGISTRY_USERNAME }}.azurecr.io/api:latest'
-          
+
       - name: Azure Logout
         run: |
           az logout
