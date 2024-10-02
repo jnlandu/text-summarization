@@ -26,7 +26,7 @@ async def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]):
 
 
 @app.post("/chat")
-async def upload_file(
+async def chat(
       form_data: Annotated[OAuth2PasswordRequestForm, Depends(oauth2_scheme)], 
       chat_request: ChatRequest,
     #   file: UploadFile = File(...),
