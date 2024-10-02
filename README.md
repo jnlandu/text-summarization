@@ -1,151 +1,142 @@
+# Okapi Chat:  A text sumarization, chat and question answering web site.
 
-# PDF  Text Extraction, Summarization, and Question-Answering Tool
+This is a project that aims to provide a platform where users can upload their text or  PDF files, get a summary of the content. Additional to summarization, the user can chat with our bot. 
 
-This repository provides a tool for extracting text from PDF files, summarizing the content, and performing question-answering (QA) using a retrieval-augmented generation (RAG) model. The project leverages `PyPDF2` for PDF text extraction and `transformers` for NLP tasks like summarization and QA.
+In the later version, the user will also be to ask questions about the content.
+
+The project leverage `Groq API`  for chat functionality, text summarization, and for question answering. The project is built using Python, FastAPI, and Docker.
 
 ## Features
-- **Text Extraction**: Extract text from PDF documents.
-- **Summarization**: Summarize the extracted text using a transformer-based model.
-- **Question Answering (QA)**: Perform QA using a retrieval-augmented generation (RAG) model based on PDF content.
-- **Web Article Fetching**: Retrieve articles from web pages for processing.
-
+- **Summarization**: Summarize the  text-like documents .
+- **Question Answering (QA)**: Perform QA ( added feature, not previously rquired in the project).
+- **Question Answering (QA)**: Perform QA  on Text or PDFs( added feature, not previously rquired in the project) is in progress.
 ## Requirements
-- Python 3.7+
-- Libraries:
-  - `PyPDF2`
-  - `transformers`
-  - `requests`
+ ```txt
+    python>=3.8
+    PyPDF2
+    requests
+    fastapi
+    uvicorn
+    pytest
+    groq
+    python-dotenv
+    bcrypt 
+ 
+```
 
 Install dependencies locally with:
 ```bash
 pip install -r requirements.txt
 ```
 
-Or run the application inside a Docker container (recommended for a reproducible environment).
+## Project structure
 
-## Docker Setup
+```GraphQL
+.
+├── app                                          # FastAPI app
+│   ├── __init__.py
+│   ├── app.py
+│   └── main.py
+├── mockup                                       # Frontend mockup
+│   ├── SignUp.png
+│   ├── accountSuccessfullyCreated.png
+│   ├── loginlogin.png
+│   └── updateUserInfoConfirmation.png
+├── tests                                        # Test functions
+│   ├── __init__.py
+│   ├── sample.pdf                               # Sample PDF file for testing
+│   ├── sample.txt                               # Sample text file for testing
+│   ├── test_auth.py
+│   ├── tpdf.py                                  # Test functions for PDF files. Currently, not available.
+│   └── ttxt.py                                  # Test functions for text files. Currently, not available.
+└── utils                                        # Utility functions
+|   ├── __init__.py
+|   ├── api.py                                   # To initialize the groq API
+|   ├── auth.py                                  # To handle user authentication
+|   ├── pdf.py                                   # To handle PDF files
+|   └── summarizer.py                            # To summarize text, Transformers-based model
+├── Dockerfile                                   # Docker configuration
+├── requirements.txt                             # Dependencies
+├── README.md
 
-This project includes Docker support, allowing you to run the application in a containerized environment.
-
-### Dockerfile Overview:
-- **Base Image**: Official Python 3.10-slim
-- **Dependencies**: Installed via `requirements.txt`
-- **FastAPI**: Deployed with Uvicorn
-
-### Building and Running the Docker Container:
-
-1. **Clone the repository** and navigate to the project folder:
-   ```bash
-   git clone https://github.com/your-repo-link
-   cd your-repo
-   ```
-
-2. **Build the Docker image**:
-   ```bash
-   docker build -t pdf-text-summarizer .
-   ```
-
-3. **Run the Docker container**:
-   ```bash
-   docker run -d -p 8000:8000 pdf-text-summarizer
-   ```
-
-4. The FastAPI app will be available at `http://localhost:8000`.
-
-### Dockerfile
-```Dockerfile
-# Use the official Python image as a base
-FROM python:3.10-slim
-
-# Set the working directory inside the container
-WORKDIR /code
-
-# Copy the requirements file to the working directory
-COPY requirements.txt /code/requirements.txt
-
-# Install dependencies
-RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
-
-# Copy the application code
-COPY ./app /code/app
-COPY ./tests /code/tests
-COPY ./utils /code/utils
-
-# Expose the port that the app runs on
-EXPOSE 8000
-
-# Command to run the FastAPI app with uvicorn
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
 ```
+    
+## Installation
+To run the application, you need to install the required dependencies. You can install them locally or use Docker.  If you want to run it locally, here are the steps:
+
+1. Clone the repository:
+```bash
+git clone  https://github.com/jnlandu/text-summarization.git
+```
+2. Navigate to the project directory:
+```bash
+cd text-summarization
+```
+3. Install the dependencies:
+```bash
+pip install -r requirements.txt
+```
+4. Run the FastAPI application:
+```bash
+uvicorn app.main:app --reload or fastapi dev app/main.py
+```
+Note: You  will need to have the `groq` API key to run the application. You can get the API key by signing up on the [Groq API](https://groqapi.com/). Set the API key in the `.env` file, with the name `GROQ_API_KEY`, that is:
+```bash
+GROQ_API_KEY=your_api_key
+```
+Ensure that the `.env` file is in the root directory of the project, like described above. The application will be available at `http://localhost:8000`.
 
 ## Usage
-
-### 1. Text Extraction from PDF
-Extract text from a PDF file using `extract_text_from_pdf`:
-```python
-text = extract_text_from_pdf("path_to_pdf.pdf")
+Once the application is running, you can access the FastAPI Swagger UI at `http://localhost:8000/docs`.  Here are the steps to access the full app:
+1. Authenticate the user by signing up or logging in. Click on lock icon on the top right corner of the page and Use the following credentials:
+```txt
+credentials:
+    username: admin | user
+    password: userpass
 ```
+2. Click on the "Try it out" button.
+3. Type or paste your text in the text area under Request body. Make user the text is enclosed in quotes.
+4. Click on the "Execute" button.
+5. The response will be displayed in the "Response body" section.
 
-### 2. Summarization
-Summarize the extracted text using a transformer-based summarizer:
-```python
-summarized_text = summarize(text, max_length=200, min_length=100)
-```
+Note: As mentioned earlier, the chat functionality is also available. The document-chat functionality is in progress.
 
-### 3. Question Answering (RAG)
-Answer questions based on the PDF content using the RAG model:
-```python
-result = rag(question="Your question", context=extracted_text_from_pdf)
-```
-
-### 4. Fetching an Article
-Fetch the content of a web article using the provided URL:
-```python
-article_text = get_article("https://example.com")
-```
-
-### Interactive Mode
-Run the script and choose between summarization and question-answering:
+## Deploy your application using Docker
+- You can pull the docker image from the docker hub and run it on your local machine or server.
+- The docker image is available on the docker hub [here](https://hub.docker.com/repository/docker/jnlandu/api/general) or you can pull it using the following command:
 ```bash
-python script.py
+docker pull jnlandu/api:latest
 ```
-
-You will be prompted to select a task:
-1. Summarization
-2. Question and Answer
-
-Example:
+- if you have cloned the repository, you can build the docker image using the following command:
 ```bash
-What task do you want to do?
-
-Enter 1 for summarization
-
-Enter 2 for Question and Answer
+docker build -t your-preferred-image-name  .
 ```
+- You can run the docker container using the following command:
+```bash
+docker run -d -p 8000:8000 your-preferred-image-name
+```
+- Pass the API key as an environment variable:
+```bash
+docker run -d -p 8000:8000 -env-file ./.env your-preferred-image-name
+```
+The docker container will be available at `http://localhost:8000`.
 
-## Project Structure
-- `extract_text_from_pdf(pdf_path)`: Extract text from PDF.
-- `summarize(text)`: Summarize extracted text.
-- `rag(question, context)`: Perform QA with the RAG model.
-- `get_article(url)`: Fetch an article from a web page.
-- `task()`: Interactive function to select between summarization and QA.
+## Deployment with Azure
+- The project is deployed on Azure and can be accessed [here](https://okapi-chat.azurewebsites.net/docs). 
 
-## Dependencies
-- **PyPDF2**: Extract text from PDF files.
-- **Transformers**: Hugging Face library for NLP tasks.
-- **Requests**: Fetch articles from web pages.
+- CI/CD is implemented using GitHub Actions. The workflow file is available in the `.github/workflows` folder.
+
 
 ## Running Tests
 The project includes a basic testing structure within the `/tests` folder. Ensure you have the necessary dependencies installed, and run:
 ```bash
 pytest tests/
 ```
+As for now, only the authentication tests are available. The tests for the PDF and text files are in progress.
 
-## Host your own instance:
-- Can pull the docker image from the docker hub and run it on your local machine or server.
-- The docker image is available on the docker hub [here](https://hub.docker.com/repository/docker/jnlandu/api/general).
 
 ## In Progress
+Here are the features that are in progress:
 - Add frontend for the web application (already built and  will be available soon).
 - The mockup for the frontend is available in the `mockup` folder.
 - The frontend mockup  and design is built using Penpot, a free and open-source design tool, and can be accessed [here](https://design.penpot.app/#/view/c04641ea-355e-80b8-8005-0470a06594c7?page-id=a2ce2100-8690-8062-8005-048c1cd45e40&section=interactions&frame-id=657f4724-f349-80ae-8005-060334d868a5&index=0&share-id=feb30645-e691-8018-8005-08062f92a59f).
@@ -169,33 +160,24 @@ The frontend is built using:
 - Shadcn and zod for forms and their  validation
 
 
-
-
-
 ## Authors
 - [Jeremy N. Mabiala](https://jnlandu.github.io/)
 - [Atou]()
 - [Senanou ]()
 
 
-
 ## Contributing
 Contributions are welcome! For feature requests, bug reports, or questions, please open an issue.
 
-## Future Improvements:
-- Add support for more summarization models.
-- Implement more advanced QA models.
-- Improve the web article fetching functionality.
-
-
 
 ## Acknowledgements
+- [Groq API](https://groqapi.com/)
+- [FastAPI Documentation](https://fastapi.tiangolo.com/)
 - [Hugging Face Transformers](https://huggingface.co/transformers/)
 - [PyPDF2 Documentation](https://pypdf2.readthedocs.io/en/latest/)
+- [Azure Documentation](https://docs.microsoft.com/en-us/azure/)
+- [Docker Documentation](https://docs.docker.com/)
+- [Next.js Documentation](https://nextjs.org/docs)
 
 ## License
-This project is licensed under the MIT License.
-
----
-
-This updated README now includes instructions for Docker, making the project easier to set up in a consistent environment.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
