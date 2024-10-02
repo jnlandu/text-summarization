@@ -17,6 +17,7 @@ COPY ./app /code/app
 COPY ./tests /code/tests
 COPY ./utils /code/utils
 
+COPY .env /code/.env
 # Expose the port that the app runs on
 EXPOSE 8000
 
