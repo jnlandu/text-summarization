@@ -1,10 +1,12 @@
 python-dotenv
 PyPDF2
-transformers
-torch
+python-dotenv
+# transformers
+# torch
 bcrypt
 pytest
 httpx
-tf-keras # in case fastapi requires tensorflow
+# tf-keras # in case fastapi requires tensorflow
+groq # in case sanity requires groq
 
 
