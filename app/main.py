@@ -4,9 +4,10 @@ from fastapi.security import  OAuth2PasswordRequestForm
 from typing import Annotated
 
 from app.app import app
+from utils.api import Client, ChatRequest
 from utils.auth import authenticate_user, oauth2_scheme
 from utils.pdf import extract_text_from_pdf
-from utils.summarizer import summarizer
+# from utils.summarizer import summarizer
 
 @app.get("/")
 async def root():
@@ -24,22 +25,52 @@ async def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]):
     return {"Authenticated_user": user["username"], "Password": user["password"]}
 
 
-@app.post("/summarize/")
+@app.post("/chat")
 async def upload_file(
-      form_data: Annotated[OAuth2PasswordRequestForm, Depends(oauth2_scheme)], file: UploadFile = File(...)
+      form_data: Annotated[OAuth2PasswordRequestForm, Depends(oauth2_scheme)], 
+      chat_request: ChatRequest,
+    #   file: UploadFile = File(...),
+     
 ):
+    #  Test chat request:
+    try:
+        # if   chat_request.content:
+            chat_completion = Client.chat.completions.create(
+                messages=[
+                    {
+                        "role": "user",
+                        "content": chat_request.content,
+                    }
+                ],
+                model="llama3-8b-8192",
+            )
+            response_message = chat_completion.choices[0].message.content
+            return {"response": response_message}
+    #  Test file upload:
+        # if file.content_type == "application/pdf":
+        #     content = await extract_text_from_pdf(file)
+        # elif file.content_type == "text/plain":
+        #     content = await file.read()
+        #     content = content.decode("utf-8")
+        # else:
+        #     raise HTTPException(status_code=400, detail="Unsupported file type")
+         
+        # chat_completion = Client.chat.completions.create(
+        #         messages=[
+        #             {
+        #                 "role": "user",
+        #                 "content": content,
+        #             }
+        #         ],
+        #         model="llama3-8b-8192",
+        #     )
+
+        # response_message = chat_completion.choices[0].message.content
+        # return {"response": response_message}
     
-
-    if file.content_type == "application/pdf":
-        content = await extract_text_from_pdf(file)
-    elif file.content_type == "text/plain":
-        content = await file.read()
-        content = content.decode("utf-8")
-    else:
-        raise HTTPException(status_code=400, detail="Unsupported file type")
-
-    summary = summarizer(content, max_length=100, min_length=30, do_sample=False)
-    return {"summary": summary[0]['summary_text']}
-
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Groq API error: {str(e)}")
+    
 print("Server is running correctly")
+
 
