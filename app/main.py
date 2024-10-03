@@ -46,27 +46,7 @@ async def chat(
             )
             response_message = chat_completion.choices[0].message.content
             return {"response": response_message}
-    #  Test file upload:
-        # if file.content_type == "application/pdf":
-        #     content = await extract_text_from_pdf(file)
-        # elif file.content_type == "text/plain":
-        #     content = await file.read()
-        #     content = content.decode("utf-8")
-        # else:
-        #     raise HTTPException(status_code=400, detail="Unsupported file type")
-         
-        # chat_completion = Client.chat.completions.create(
-        #         messages=[
-        #             {
-        #                 "role": "user",
-        #                 "content": content,
-        #             }
-        #         ],
-        #         model="llama3-8b-8192",
-        #     )
 
-        # response_message = chat_completion.choices[0].message.content
-        # return {"response": response_message}
     
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Groq API error: {str(e)}")
