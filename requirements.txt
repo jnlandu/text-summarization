@@ -2,11 +2,12 @@ python-dotenv
 PyPDF2
 python-dotenv
 # transformers
-# torch
+# torch 
 bcrypt
 pytest
 httpx
-# tf-keras # in case fastapi requires tensorflow
-groq # in case sanity requires groq
-
+#tf-keras # in case fastapi requires tensorflow
+groq  # in case sanity requires groq
+evidently # in case we need to do model monitoring
+azure-ai-ml azure-identity  # for monitoring
 
