@@ -27,11 +27,8 @@ jobs:
         run: |
           npm install
           npm run build
-          npm run exports
           echo "Listing contents of the .next directory:"
-          ls -alh .next
-
-
+          s -alh .next
 
       - name: "Deploy to Azure Web App"
         id: deploy-to-webapp
