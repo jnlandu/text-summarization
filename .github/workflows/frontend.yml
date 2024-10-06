@@ -27,8 +27,8 @@ jobs:
         run: |
           npm install
           npm run build
-          echo "Listing contents of the .next directory:"
-          ls -alh ./frontend/next
+          mv ./build/static ./build/standalone/build
+          mv ./public ./build/standalone
 
       - name: "Deploy to Azure Web App"
         id: deploy-to-webapp
@@ -37,4 +37,4 @@ jobs:
           app-name: ${{ env.WEBAPP_NAME }}
           slot-name: "Production"
           publish-profile: ${{ env.APPLICATION_PUBLISH_PROFILE }}
-          package: ./frontend/.next
+          package: ./build/standalone
