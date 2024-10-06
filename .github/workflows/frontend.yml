@@ -29,9 +29,9 @@ jobs:
           npm run build
         working-directory: ./frontend
       
-      - name: List build output
+      - name: List contents after build
+        run: ls -la
         working-directory: ./frontend
-        run: find ./.next -type d
        
       
 
