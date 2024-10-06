@@ -4,18 +4,21 @@ FROM python:3.10-slim
 # Set the working directory inside the container
 WORKDIR /backend
 
-# Copy the requirements file to the working directory
-COPY . /backend/
-COPY ./backend/requirements.txt /backend/requirements.txt
-
+# Upgrade pip
 RUN pip install --upgrade pip
+
+# Install FastAPI and standard dependencies
 RUN pip install "fastapi[standard]"
 
-RUN pip install --no-cache-dir -r /backend/requirements.txt
+# Copy the requirements file and install dependencies
+COPY backend/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the application backend
+# Copy the rest of the application backend
+COPY backend/ .
 
+# Expose the port the app runs on
 EXPOSE 8000
 
 # Command to run the FastAPI app with uvicorn
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
