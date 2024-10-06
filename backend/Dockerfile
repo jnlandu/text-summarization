@@ -13,10 +13,7 @@ RUN pip install "fastapi[standard]"
 
 RUN pip install --no-cache-dir -r /backend/requirements.txt
 
-COPY ./app /backend/app
-COPY ./routers /backend/routers
-COPY ./tests /backend/tests
-COPY ./utils /backend/utils
+COPY ./ /backend/
 
 
 # Copy the application backend
