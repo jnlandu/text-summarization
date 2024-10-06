@@ -24,6 +24,8 @@ jobs:
           login-server: myacregname.azurecr.io
           username: ${{ secrets.AZ_REGISTRY_USERNAME }}
           password: ${{ secrets.AZ_REGISTRY_PASSWORD }}
+      - name: CD into the directory
+        run: cd ./backend
        
 
       - name: Build and push container image to Azure Container Registry
