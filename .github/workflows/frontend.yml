@@ -27,12 +27,20 @@ jobs:
         run: |
           npm install
           npm run build
+          mv ./build/static ./build/standalone/build
         working-directory: ./frontend
+        
+      - name: "Deploy to Azure Web App"
+        uses: azure/webapps-deploy@v3
+        with:
+            app-name: ${{ env.WEBAPP_NAME }}
+            slot-name: "Production"
+            publish-profile: ${{ env.APPLICATION_PUBLISH_PROFILE }}
+            package: ./build/standalone
+        
       
-      - name: List contents after build
-        run: ls -la
-        working-directory: ./frontend
-       
+      
+    
       
 
 #       - name: Copy static files
