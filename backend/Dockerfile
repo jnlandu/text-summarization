@@ -6,14 +6,15 @@ WORKDIR /backend
 
 # Copy the requirements file to the working directory
 
-COPY ./requirements.txt /backend/requirements.txt
+# COPY ./requirements.txt /backend/requirements.txt
+COPY ./ /backend/
 
 RUN pip install --upgrade pip
 RUN pip install "fastapi[standard]"
 
 RUN pip install --no-cache-dir -r /backend/requirements.txt
 
-COPY ./ /backend/
+
 
 
 # Copy the application backend
