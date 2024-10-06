@@ -21,42 +21,44 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "20.x"
-        #   cache: "npm"
+          cache: "npm"
 
-      - name: npm install 
+      - name: Install dependencies and build
         run: |
           npm install
+          npm run build
         working-directory: ./frontend
-
-      - name: install dependencies
-        run: |
-          npm install
+      
+      - name: List build output
+        run: find ./.next -type d
         working-directory: ./frontend
+      
 
-      - name: Copy static files
-        working-directory: ./frontend
-        run: |
-          cp -R ./.next/static ./.next/standalone/.next/static
+#       - name: Copy static files
+#         run: |
+#           mkdir -p ./.next/standalone/.next
+#           cp -R ./.next/static ./.next/standalone/.next/static
+#         working-directory: ./frontend
 
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v4
-        with:
-          name: app
-          path: ./.next/standalone
+#       - name: Upload artifact for deployment job
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: app
+#           path: ./.next/standalone
 
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v4
-        with:
-          name: app
+#   deploy:
+#     runs-on: ubuntu-latest
+#     needs: build
+#     steps:
+#       - name: Download artifact from build job
+#         uses: actions/download-artifact@v4
+#         with:
+#           name: app
 
-      - name: "Deploy to Azure Web App"
-        uses: azure/webapps-deploy@v3
-        with:
-          app-name: ${{ env.WEBAPP_NAME }}
-          slot-name: "Production"
-          publish-profile: ${{ env.APPLICATION_PUBLISH_PROFILE }}
-          package: .
+#       - name: "Deploy to Azure Web App"
+#         uses: azure/webapps-deploy@v3
+#         with:
+#           app-name: ${{ env.WEBAPP_NAME }}
+#           slot-name: "Production"
+#           publish-profile: ${{ env.APPLICATION_PUBLISH_PROFILE }}
+#           package: ./.next/standalone
