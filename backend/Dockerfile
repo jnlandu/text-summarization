@@ -6,7 +6,7 @@ WORKDIR /backend
 
 # Copy the requirements file to the working directory
 COPY . /backend/
-COPY ./requirements.txt /backend/requirements.txt
+COPY ./backend/requirements.txt /backend/requirements.txt
 
 RUN pip install --upgrade pip
 RUN pip install "fastapi[standard]"
