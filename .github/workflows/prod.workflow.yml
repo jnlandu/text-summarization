@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: Checkout Github Actions
-        uses: actions/checkout@main
+        uses: actions/checkout@v2  
 
       - name: Log in to Azure via Azure CLI
         uses: azure/login@v1
@@ -24,13 +24,11 @@ jobs:
           login-server: myacregname.azurecr.io
           username: ${{ secrets.AZ_REGISTRY_USERNAME }}
           password: ${{ secrets.AZ_REGISTRY_PASSWORD }}
-      - name: CD into the directory
-        run: cd ./backend
        
 
       - name: Build and push container image to Azure Container Registry
         run: |
-          docker build . -t myacregname.azurecr.io/api:${{ github.sha }}
+          docker build -f backend/Dockerfile . -t myacregname.azurecr.io/api:${{ github.sha }}
           docker push myacregname.azurecr.io/api:${{ github.sha }}
 
       - name: Deploy to Azure Web App
