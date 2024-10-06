@@ -8,6 +8,7 @@ WORKDIR /backend
 
 # COPY ./requirements.txt /backend/requirements.txt
 COPY ./ /backend/
+COPY ./requirements.txt /backend/requirements.txt
 
 RUN pip install --upgrade pip
 RUN pip install "fastapi[standard]"
