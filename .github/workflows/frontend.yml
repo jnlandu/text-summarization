@@ -30,8 +30,9 @@ jobs:
         working-directory: ./frontend
       
       - name: List build output
-        run: find ./frontend/.next -type d
         working-directory: ./frontend
+        run: find ./.next -type d
+       
       
 
 #       - name: Copy static files
