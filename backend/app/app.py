@@ -9,20 +9,12 @@ load_dotenv()
 
 # API_URL = os.getenv("API_URL") for development
 
-
-
 app = FastAPI()
 # For cross plateform: use the CORSMiddleware to allow requests from the frontend
-# origins = [
-#     "https://okapi-ia.azurewebsites.net",
-#     "http://localhost",
-#     "http://localhost:300"
-# ]
 
 origins = [
-    "https://okapi-ia.azurewebsites.net",
-    "http://localhost",
-    "http://localhost:8080",
+    "https://okapi-ia.azurewebsites.net", # for production
+    "http://localhost:3000", # for development
 ]
 app.add_middleware(
     CORSMiddleware,
@@ -31,11 +23,3 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-# app.add_middleware(
-#     CORSMiddleware,
-#     allow_origins=origins # for production put the frontend url
-#     allow_credentials=True,
-#     allow_methods=["*"],
-#     allow_headers=["*"],
-# )
