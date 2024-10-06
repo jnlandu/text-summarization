@@ -30,7 +30,7 @@ jobs:
         working-directory: ./frontend
       
       - name: List build output
-        run: find ./.next -type d
+        run: find ./frontend/.next -type d
         working-directory: ./frontend
       
 
