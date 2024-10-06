@@ -5,14 +5,14 @@ from routers import auth, chat,routines,workouts
 
 
 
-@app.get("/health")
-async def health_check():
-    return {"status": "healthy"}
-@app.get("/")
 
+@app.get("/")
 async def root():
     return {"message": "Healthy"}
 
+@app.get("/health")
+async def health_check():
+    return {"status": "healthy"}
 
 app.include_router(auth.router)
 app.include_router(chat.router)
