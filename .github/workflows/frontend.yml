@@ -21,18 +21,38 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "20.x"
+          cache: "npm"
 
-      - name: npm install, build, and test
+      - name: npm install and build
         working-directory: ./frontend
         run: |
           npm install
           npm run build
 
+      - name: Copy static files
+        working-directory: ./frontend
+        run: |
+          cp -R ./.next/static ./.next/standalone/.next/static
+
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v4
+        with:
+          name: app
+          path: ./.next/standalone
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v4
+        with:
+          name: app
+
       - name: "Deploy to Azure Web App"
-        id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
           app-name: ${{ env.WEBAPP_NAME }}
           slot-name: "Production"
           publish-profile: ${{ env.APPLICATION_PUBLISH_PROFILE }}
-          package: ./.next
+          package: .
