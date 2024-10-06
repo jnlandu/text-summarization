@@ -21,13 +21,17 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "20.x"
-          cache: "npm"
+        #   cache: "npm"
 
-      - name: npm install and build
-        working-directory: ./frontend
+      - name: npm install 
         run: |
           npm install
-          npm run build
+        working-directory: ./frontend
+
+      - name: install dependencies
+        run: |
+          npm install
+        working-directory: ./frontend
 
       - name: Copy static files
         working-directory: ./frontend
