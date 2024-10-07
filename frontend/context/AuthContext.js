@@ -39,8 +39,6 @@ export const AuthProvider = ({ children }) => {
     const logout = () => {
         setUser(null);
         delete axios.defaults.headers.common['Authorization'];
-        localStorage.removeItem('token'); // Clear token from storage
-        localStorage.removeItem('user'); // Clear user from storage
         router.push('/login')
     };
 

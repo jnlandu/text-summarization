@@ -25,7 +25,7 @@ const Home = () => {
       if (storedToken) {
         try {
 
-          const apiUrl = `${process.env.NEXT_PUBLIC_FASTAPI_API_URL}/chat`;
+          const apiUrl = `${process.env.NEXT_PUBLIC_FASTAPI_API_URL}/chat`  // ?? http://localhost:8000/chat`;
           const chatResponse = await axios.get(apiUrl, {
             headers: { Authorization: `Bearer ${storedToken}` },
           });

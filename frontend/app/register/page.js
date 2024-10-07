@@ -13,7 +13,7 @@ const SignUp = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      const apiUrl = `${process.env.NEXT_PUBLIC_FASTAPI_API_URL}/auth`;
+      const apiUrl = `${process.env.NEXT_PUBLIC_FASTAPI_API_URL}/auth` // ?? http://localhost:8000/auth`;
       const response = await axios.post(apiUrl, { // Ensure the trailing slash if your backend setup requires it
         username: registerEmail, // Changed 'Email' to 'username' if your backend expects 'username'
         password: registerPassword,
@@ -57,7 +57,7 @@ const SignUp = () => {
       <div className="container mt-3">
         <small>Do you already have an account? </small> 
         <a className="text-primary" href="#"
-        onClick={() => router.push('/login/')}
+        onClick={() => router.push('/login')}
         
         >Sign in</a>
       </div>
