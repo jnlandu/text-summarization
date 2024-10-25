@@ -11,9 +11,9 @@ router = APIRouter(
 
 # Dummy list to hold chat messages
 chat_history = []
-@router.get('/')
-async def get_chat():
-    return {"messages": chat_history}
+# @router.get('/')
+# async def get_chat():
+#     return {"messages": chat_history}
 
 @router.post('/')
 async def chat(
