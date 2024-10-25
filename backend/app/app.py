@@ -2,6 +2,7 @@ import os
 
 from fastapi import  FastAPI,  Request, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+# from starlette.datastructures import URL
 from  utils.database import Base, engine
 from dotenv import load_dotenv
 
@@ -19,7 +20,8 @@ app = FastAPI()
 
 @app.middleware("http")
 async def force_https_middleware(request: Request, call_next):
-    if request.url.scheme != "https":
+    url = request.url
+    if "localhost"  not in url.netloc and url.scheme == "https":
         raise HTTPException(status_code=400, detail="Use HTTPS instead of HTTP")
     response = await call_next(request)
     return response

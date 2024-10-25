@@ -1,5 +1,4 @@
 python-dotenv
-PyPDF2
 python-dotenv
 bcrypt
 pytest
