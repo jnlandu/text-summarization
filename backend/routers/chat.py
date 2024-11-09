@@ -38,16 +38,21 @@ async def chat(
                 ],
                 temperature=0.1,
                 max_tokens=8192,
+                stream=True,
                 top_p=1,
                 stop= None,
                 # model="mixtral-8x7b-32768",
                 model="llama3-8b-8192",
             )
-            for chunk in stream.choices:
-                if chunk.message.role == "assistant":
-                    response_message = chunk.message.content
-                    chat_history.append(chat_request.content) 
-                    return {"response": response_message}
+            for chunk in stream:
+                response_message = chunk.choices[0].delta.content
+                if response_message:
+                     yield {"response": response_message}
+                     
+                # if chunk.message.role == "assistant":
+                #     response_message = chunk.message.content
+                #     chat_history.append(chat_request.content) 
+                #     return {"response": response_message}
             # response_message = stream.choices[0].message.content
             # chat_history.append(chat_request.content)  # Store user message
             # chat_history.append(response_message)  # Store AI response
