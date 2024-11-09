@@ -11,5 +11,7 @@ router = APIRouter(
 )
 
 @router.get('/')
-async def hello():
-    return {'message': 'Hello World!'}
+async def hello(message: str,
+        db: db_dependency, user: user_dependency,
+                ):
+    return {'content': message}
