@@ -1,8 +1,9 @@
 'use client';
 import { useContext, useState } from "react";
-
+// import axios from "axios";
+// import AuthContext from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
-import AuthContext from "../../context/AuthContext";
+import AuthContext from "../../../context/AuthContext";
 
 const Login = () => {
     const router = useRouter();
@@ -49,21 +50,6 @@ const Login = () => {
                 </div>
                 <button type="submit" className="btn btn-primary">Sign In</button>
             </form>
-            <div className="d-flex container mt-3">
-                <div className="flex-fill">
-              <small>Don't have an account yet ? </small> 
-              <a className="text-primary" href="#"
-              onClick={() => router.push('/register/')}
-              >Sign up</a>
-              </div>
-              <div className="flex-fill text-end">
-                <a href="#"
-                 onClick = {() => router.push('/admin/login')}
-                 >
-                <small className="text-primary">Admin ? </small>
-                </a>
-            </div>
-          </div>
         </div>
     );
 };

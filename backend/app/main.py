@@ -3,9 +3,7 @@ from fastapi.staticfiles import StaticFiles
 
 #  Personal imports
 from app.app import app
-from routers import auth, chat, hello
-
-
+from routers import auth, chat
 
 
 @app.get("/")
@@ -19,7 +17,7 @@ async def admin():
 
 app.include_router(auth.router)
 app.include_router(chat.router)
-app.include_router(hello.router)
+
 
 
 

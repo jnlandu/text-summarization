@@ -1,15 +1,17 @@
 'use client';
 
-import { useContext, useState, useEffect, useRef } from 'react';
+import {  useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import ProtectedRoute from '@/components/ProtectedRoute';
-import Header from '@/components/Header';
-// import AuthContext from '@/context/AuthContext';
+
+import ProtectedRoute from '../components/ProtectedRoute';
+import Header from '../components/Header';
+import Welcome from '../components/Welcome';
+
 import { IoMdSend } from "react-icons/io";
 import { GrFormAttachment } from "react-icons/gr";
 import { AiFillRobot } from "react-icons/ai";
 import { FaUserCircle } from "react-icons/fa";
-import Welcome from '@/components/Welcome';
+
 
 const Home = () => {
   // const { user, logout } = useContext(AuthContext);
@@ -25,7 +27,7 @@ const Home = () => {
       if (storedToken) {
         try {
 
-          const apiUrl = `${process.env.NEXT_PUBLIC_FASTAPI_API_URL}/chat`  // ?? http://localhost:8000/chat`;
+          const apiUrl = `${process.env.NEXT_PUBLIC_FASTAPI_API_URL}/chat` 
           const chatResponse = await axios.get(apiUrl, {
             headers: { Authorization: `Bearer ${storedToken}` },
           });
@@ -62,13 +64,12 @@ const Home = () => {
 
   return (
     <ProtectedRoute>
-        {/* <div className="header-sticky"> */}
-             <Header/>
-         {/* </div> */}
+  
+        <Header/>
         
-        <div className="ontainer mt-5">
+        <div className="container mt-5">
         <Welcome />
-        <div className="mb-3  chat-container ms-3 me-3 justi">
+        <div className="mb-3  chat-container ms-3 me-3">
           <div className="">
             {chatMessages.map((msg, index) => (
               <div key={index} className={`d-flex ${msg.sender === 'user' ? 'justify-content-end' : 'justify-content-start'}`}>
@@ -93,7 +94,6 @@ const Home = () => {
             rows="2"
           ></textarea>
           {/* Attachment Icon */}
-
           <input 
             type="file" 
             id="fileInput" 
@@ -101,7 +101,9 @@ const Home = () => {
             onChange={handleFileUpload}
           />
             <label htmlFor="fileInput" className="text-secondary cursor-pointer" style={{userSelect: "none"}}>
-            <a  href="#">  <GrFormAttachment  size={30}/> </a>
+            <a  href="#"
+             onClick={handleFileUpload}
+            >  <GrFormAttachment  size={30}/> </a>
             </label>
           
           {/* Send Button */}
@@ -114,20 +116,27 @@ const Home = () => {
             <IoMdSend />
           </button>
         </div>
+        {/* <Footer/> */}
       </div>
     </ProtectedRoute>
   );
 
   function handleFileUpload(e) {
-    const file = e.target.files[0];
+    const file = e.target.files?.[0];
     if (file) {
+      console.log("Selected file:", file.name);
+      // Handle the file upload logic here
       const reader = new FileReader();
-      reader.onload = async (event) => {
-        console.log("File content ready to be handled:", event.target.result);
+      reader.onload = (event) => {
+        const fileContent = event.target?.result;
+        if (fileContent) {
+        console.log("File content:", fileContent);
+        // Send the file content to the server or handle it as needed
+        }
       };
-      reader.readAsText(file); // Assuming the file is a text type
+      reader.readAsText(file);
     }
-  }
+    }
 };
 
 export default Home;

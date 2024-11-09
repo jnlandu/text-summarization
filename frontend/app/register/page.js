@@ -1,8 +1,8 @@
 'use client';
 import React, { useContext, useState } from 'react';
 import axios from 'axios';
-import AuthContext from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
+import AuthContext from '../../context/AuthContext';
 
 const SignUp = () => {
   const { login } = useContext(AuthContext);
