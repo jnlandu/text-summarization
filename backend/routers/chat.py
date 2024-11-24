@@ -40,20 +40,20 @@ async def chat(
                 stop= None,
                 # model="mixtral-8x7b-32768",
                 model="llama3-8b-8192",
-                stream=True,
+                # stream=True,
             )
 
-            def stream_response():
-                for chunk in stream:
-                    content = chunk.choices[0].delta.content
-                    if content:
-                        yield {"response": content}
+            # def stream_response():
+            #     for chunk in stream:
+            #         content = chunk.choices[0].delta.content
+            #         if content:
+            #             yield {"response": content}
 
-            prettified_output = ""
-            for message in stream_response():
-                prettified_output += md.convert(message["response"]) + "\n"
+            # prettified_output = ""
+            # for message in stream_response():
+            #     prettified_output += md.convert(message["response"]) + "\n"
 
-            return {"response": prettified_output}
+            # return {"response": prettified_output}
 
             # stream_messages = []
             # for chunk in stream:
@@ -69,10 +69,10 @@ async def chat(
             # print("Debugging all_messages", all_messages)   
             # return {"response": all_messages}
 
-            # response_message = stream.choices[0].message.content
-            # chat_history.append(chat_request.content)  # Store user message
-            # chat_history.append(response_message)  # Store AI response
-            # return {"response": response_message}
+            response_message = stream.choices[0].message.content
+            chat_history.append(chat_request.content)  # Store user message
+            chat_history.append(response_message)  # Store AI response
+            return {"response": response_message}
    
    
     except Exception as e:
