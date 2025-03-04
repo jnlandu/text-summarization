@@ -13,7 +13,6 @@ The project leverage `Groq API`  for chat functionality, text summarization, and
 ## Requirements
  ```txt
     python>=3.8
-    PyPDF2
     requests
     fastapi
     uvicorn
